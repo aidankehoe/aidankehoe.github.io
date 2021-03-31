@@ -94,6 +94,8 @@ for (const ev of ['touchmove', 'mousemove']) {
           rotationAngle = ${touch.rotationAngle} <br/>
           altitudeAngle = ${touch.altitudeAngle} <br/>
           azimuthAngle = ${touch.azimuthAngle} <br/>
+          altitudeAngleDeg = ${touch.altitudeAngle * 180 /Math.PI} <br/>
+          azimuthAngleDeg = ${touch.azimuthAngle * 180 / Math.PI} <br/>
         `
 
         // 'touchev = ' + (e.touches ? JSON.stringify(
