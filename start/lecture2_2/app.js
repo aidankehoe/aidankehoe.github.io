@@ -16,7 +16,7 @@ class App{
 		this.scene.add(ambient);
 
 		const light = new THREE.DirectionalLight();
-		light.position( 0.2, 1, 1);
+		light.position.set( 0.2, 1, 1);
 		this.scene.add(light);
 
 		this.renderer = new THREE.WebGLRenderer( {antialias: true} );
