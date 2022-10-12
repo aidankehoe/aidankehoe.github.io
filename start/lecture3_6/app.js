@@ -144,7 +144,29 @@ class App{
         const self = this;
         
         function onConnected( event ){
-            
+            //self.updateControllers({right: {trigger: true, squeeze: true}});
+            const info = {};
+
+            fetchProfile( event.data, DEFAULT_PROFILES_PATH, DEFAULT_PROFILE).then(({profile, assetPath}) => {
+                console.log( JSON.stringify(profile));
+
+                info.name = profile.profileId;
+                info.targetRayMode = event.data.targetRayMode;
+
+                Object.entries (profile.layouts).forEach( ( [key, layout] ) => {
+                    const components = {};
+                    Object.values( layout.components).forEach((component) => {
+                            components[component.rootNodeName] = component.gamepadIndices;
+                        });
+                        info[key] = components;
+                    });
+                });
+
+                self.createButtonStates(info.right);
+                console.log(JSON.stringify);
+                self.updateControllers( info );
+
+
         }
          
         const controller = this.renderer.xr.getController( 0 );

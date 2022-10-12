@@ -136,6 +136,7 @@ class App{
 
                 loader = new GLTFLoader().setPath('../../assets/');
         
+                //loader.load('SartoStylus_White.glb',
                 loader.load( 'flash-light.glb',
                     ( gltf ) => {
                         const flashLight = gltf.scene.children[2];
