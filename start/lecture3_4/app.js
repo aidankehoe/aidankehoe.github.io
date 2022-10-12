@@ -77,7 +77,7 @@ class App{
             this.room.add( object );
         }
 
-        this.highlight = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial( {color: 0xFFFFFF, side: THREE.Backside}));
+        this.highlight = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial( {color: 0xFFFFFF, side: THREE.BackSide}));
         this.highlight.scale.set( 1.2, 1.2, 1.2);
         this.scene.add (this.highlight);
         
@@ -88,29 +88,28 @@ class App{
         
         const button = new VRButton( this.renderer );
         
-        this.controllers = this.buildControllers();
-
         const self = this;
 
-        function onSelectStart(){
+        this.controllers = this.buildControllers();
+
+        function onSelectStart() {
             this.children[0].scale.z = 10;
             this.userData.selectPressed = true;
         }
 
-        function onSelectEnd(){
+        function onSelectEnd() {
             this.children[0].scale.z = 0;
             self.highlight.visible = false;
             this.userData.selectPressed = false;
-
-            this.controllers.forEach( (controller) =>  {
-                controller.addEventListener( 'selectstart', onSelectStart);
-                controller.addEventListener( 'selectend', onSelectEnd);
-            });
-
         }
-        
+
+        this.controllers.forEach( (controller) =>  {
+            controller.addEventListener( 'selectstart', onSelectStart);
+            controller.addEventListener( 'selectend', onSelectEnd);
+        });
+
     }
-    
+          
     buildControllers(){
         const controllerModelFactory = new XRControllerModelFactory();
         
@@ -134,6 +133,7 @@ class App{
             
             const grip = this.renderer.xr.getControllerGrip( i );
             grip.add( controllerModelFactory.createControllerModel( grip )).applyMatrix4(controller.matrixWorld);
+            //grip.add( controllerModelFactory.createControllerModel( grip ));
             this.scene.add( grip );
         }
         
@@ -143,8 +143,8 @@ class App{
     handleController( controller ){
         if (controller.userData.selectPressed) {
             controller.children[0].scale.z = 10;
-            
-            this.workingMatrix.identity.extractRotation(controller.MatrixWorld);
+
+            this.workingMatrix.identity().extractRotation(controller.MatrixWorld);
 
             this.raycaster.ray.origin.setFromMatrixPosition(controller.MatrixWorld);
 
